@@ -27,5 +27,7 @@ RUN gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595
  && gpg --batch --verify /tini.asc /tini \
  && chmod +x /tini
 
+RUN useradd osg
+
 ENTRYPOINT ["/tini", "/bin/entrypoint.sh"]
 
