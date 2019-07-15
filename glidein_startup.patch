@@ -1,0 +1,17 @@
+--- a/tools/manual_glidein_startup
++++ b/tools/manual_glidein_startup
+@@ -132,7 +132,7 @@ def params2args(ad, param_prefix='GlideinParam'):
+     for attr in ad:
+         if attr.startswith(param_prefix):
+             key = '-param_%s' % attr.replace(param_prefix, '')
+-            args[key] = escape_param(ad.get(attr))
++            args[key] = escape_param(str(ad.get(attr)))
+     return args
+ 
+ 
+@@ -259,4 +259,4 @@ def main(argv):
+ ################################################################################
+ 
+ if __name__ == '__main__':
+-    sys.exit(main(sys.argv))
++    sys.exit(main(sys.argv[1:]))
