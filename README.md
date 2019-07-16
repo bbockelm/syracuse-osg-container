@@ -16,6 +16,8 @@ Example invocation utilizing a grid proxy:
 
 ```
 docker run -ti --rm --user osg \
+ --cap-add=DAC_OVERRIDE --cap-add=SETUID --cap-add=SETGID --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
+ -v /cvmfs:/cvmfs \
  -v /path/to/x509:/tmp/x509_user_proxy \
  -e X509_USER_PROXY=/tmp/x509_user_proxy \
  -e OSG_SQUID_LOCATION=http://somehost.syracuse.edu \
@@ -28,6 +30,8 @@ Alternately, if you utilize a host certificate,
 
 ```
 docker run -ti --rm --user osg \
+ --cap-add=DAC_OVERRIDE --cap-add=SETUID --cap-add=SETGID --cap-add=SYS_ADMIN --cap-add=SYS_CHROOT --cap-add=SYS_PTRACE \
+ -v /cvmfs:/cvmfs \
  -v ~/.globus/syracusecert.pem:/etc/grid-security/hostcert.pem \
  -v ~/.globus/syracusekey.pem:/etc/grid-security/hostkey.pem \
  -e OSG_SQUID_LOCATION=http://somehost.syracuse.edu \
