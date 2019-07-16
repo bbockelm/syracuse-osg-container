@@ -21,10 +21,8 @@ docker run -ti --rm --user osg \
  -v /path/to/x509:/tmp/x509_user_proxy \
  -e X509_USER_PROXY=/tmp/x509_user_proxy \
  -e OSG_SQUID_LOCATION=http://somehost.syracuse.edu \
- 3f4f25a10341
+ bbockelm/syracuse-osg-container
  ```
- 
-(replace `3f4f25a10341` with the name of the freshly built image)
 
 Alternately, if you utilize a host certificate,
 
@@ -35,5 +33,5 @@ docker run -ti --rm --user osg \
  -v ~/.globus/syracusecert.pem:/etc/grid-security/hostcert.pem \
  -v ~/.globus/syracusekey.pem:/etc/grid-security/hostkey.pem \
  -e OSG_SQUID_LOCATION=http://somehost.syracuse.edu \
- 3f4f25a10341
+ bbockelm/syracuse-osg-container
  ```
