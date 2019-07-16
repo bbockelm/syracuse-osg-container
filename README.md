@@ -1,14 +1,19 @@
-# syracuse-osg-container
+# OSG Pilot Container
+
 A Docker container build emulating a Syracuse worker node for the OSG VO
 
-This container is meant to be used as a way to start a whole node pilot container on a Syracuse node.
-It works out of the box but two enviroment variables need to be set up:
+This container embeds an OSG pilot and, if provided with valid credentials, connects to the OSG
+flock pool.
 
-1. X509_USER_PROXY a location inside the container where an OSG Flock proxy container is set, for example ('tmp/x509_user_proxy/). 
-This proxy needs to have this DN: `/DC=org/DC=incommon/C=US/ST=WI/L=Madison/O=University of Wisconsin-Madison/OU=OCIS/CN=flock.opensciencegrid.org`
-1. OSG_SQUID_LOCATION the http address of the squid location at syracuse. For example (http://its-condor-squid1.syr.edu)
+In order to successfully start payload jobs, two things need to be done:
 
-So this could be run as
+1. Configure authentication.  Either set the `X509_USER_PROXY` environment variable inside the container
+   (using flags to `docker run`) to a volume-mounted grid proxy or bind-mount an authorized host certificate and key
+   into `/etc/grid-security/certificates/host{cert,key}.pem`.
+2. Set the `OSG_SQUID_LOCATION` environment variable to the HTTP address to a valid Squid location.
+
+Example invocation utilizing a grid proxy:
+
 ```
 docker run -ti --rm --user osg \
  -v /path/to/x509:/tmp/x509_user_proxy \
@@ -17,4 +22,14 @@ docker run -ti --rm --user osg \
  3f4f25a10341
  ```
  
-replace 3f4f25a10341 with the name of the freshly built image)
+(replace `3f4f25a10341` with the name of the freshly built image)
+
+Alternately, if you utilize a host certificate,
+
+```
+docker run -ti --rm --user osg \
+ -v ~/.globus/syracusecert.pem:/etc/grid-security/hostcert.pem \
+ -v ~/.globus/syracusekey.pem:/etc/grid-security/hostkey.pem \
+ -e OSG_SQUID_LOCATION=http://somehost.syracuse.edu \
+ 3f4f25a10341
+ ```
